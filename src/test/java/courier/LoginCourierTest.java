@@ -13,12 +13,16 @@ import model.courier.CourierClient;
 import model.courier.CourierGenerator;
 import model.courier.Credentials;
 import model.request.WrongCredentials;
+import model.response.OrdersRes;
+import org.hamcrest.MatcherAssert;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.notNullValue;
+
 @Tag("Логин курьера")
 public class LoginCourierTest {
 
@@ -39,8 +43,7 @@ public class LoginCourierTest {
     check.createCourierSuccess(courierRes);
     Credentials creds = Credentials.from(courier);
     ValidatableResponse logInRes = client.logIn(creds);
-    int id = check.logInSuccess(logInRes);
-        assert id != 0;
+    check.logInSuccess(logInRes);
     }
 
     @Test

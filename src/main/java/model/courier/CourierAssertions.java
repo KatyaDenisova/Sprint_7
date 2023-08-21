@@ -1,24 +1,24 @@
 package model.courier;
 
+import io.qameta.allure.Step;
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 public class CourierAssertions extends CourierClient{
-    private final CourierClient client = new CourierClient();
 
-    public void createCourierSuccess(ValidatableResponse response){
-        boolean created = response
+    @Step("Создание курьера успешно")
+    public ValidatableResponse createCourierSuccess(ValidatableResponse response){
+        return response
                 .assertThat()
                 .statusCode(201)
-                .extract()
-                .path("ok");
-        assert created;
+                .contentType(ContentType.JSON)
+                .body("ok",equalTo(true));
     }
 
+    @Step("Успешный логин")
     public int logInSuccess(ValidatableResponse response){
     return response
         .assertThat()
@@ -27,6 +27,7 @@ public class CourierAssertions extends CourierClient{
         .extract()
         .path("id");
     }
+    @Step("Курьер не создан, недостаточно данных для создания учетной записи")
     public ValidatableResponse notCreated(ValidatableResponse response){
         return response
                 .assertThat()
@@ -35,6 +36,7 @@ public class CourierAssertions extends CourierClient{
                 .body("code",equalTo(400))
                 .body("message",equalTo("Недостаточно данных для создания учетной записи"));
     }
+    @Step("Неуспешный логин, учетная запись не найдена")
     public ValidatableResponse logInFalse(ValidatableResponse response){
         return response
                 .assertThat()

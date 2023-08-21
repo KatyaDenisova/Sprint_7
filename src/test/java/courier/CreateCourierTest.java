@@ -57,14 +57,6 @@ public class CreateCourierTest {
         check.notCreated(courierRes);
     }
 
-    @Test
-    @DisplayName("Запрос возвращает правильный код ответа")
-    public void postCreateCourierStatusCode() {
-        var courier = generator.random();
-        client.createCourier(courier)
-                .assertThat()
-                .statusCode(201);
-    }
 
     @Test
     @DisplayName("Успешный запрос возвращает ok: true")

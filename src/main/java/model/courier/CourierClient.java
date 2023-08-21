@@ -1,5 +1,6 @@
 package model.courier;
 
+import io.qameta.allure.Step;
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
 import model.Client;
@@ -15,6 +16,7 @@ public class CourierClient extends Client {
     static final String COURIER_DELETE = "/api/v1/courier/:id";
     private final WrongCredentials wrongCredentials = new WrongCredentials();
 
+    @Step("Создание курьера")
     public ValidatableResponse createCourier(Courier courier) {
         return spec()
                 .body(courier)
@@ -22,6 +24,7 @@ public class CourierClient extends Client {
                 .post(COURIER_API)
                 .then().log().all();
     }
+    @Step("Логин")
     public ValidatableResponse logIn(Credentials creds) {
         return spec()
                 .body(creds)
@@ -29,6 +32,7 @@ public class CourierClient extends Client {
                 .post(COURIER_API + "/login")
                 .then().log().all();
     }
+    @Step("Логин с неверными параметрами")
     public ValidatableResponse logInWrong(WrongCredentials wrongCredentials) {
         return spec()
                 .body(wrongCredentials)
@@ -37,6 +41,7 @@ public class CourierClient extends Client {
                 .then().log().all();
     }
 
+    @Step("Удаление курьера")
     public ValidatableResponse deleteCourier(int courierID) {
         return spec()
                 .body(courierID)
@@ -44,6 +49,7 @@ public class CourierClient extends Client {
                 .delete(COURIER_DELETE  + "courierID")
                 .then().log().all();
     }
+    @Step("Курьер без кредов")
     public ValidatableResponse courierWithoutFirlds() {
         return spec()
                 .body(wrongCredentials)
